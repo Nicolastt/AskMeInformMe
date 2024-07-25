@@ -172,7 +172,7 @@ const Pregunta = ({ userImage, userName }) => {
                                 width: '100%',
                                 height: '5px',
                                 backgroundColor: getProgressColor(tiempoRestante),
-                                transition: 'width 0.1s ease-in-out',
+                                transition: 'transform 0.1s linear',
                                 transform: `scaleX(${progressPercentage / 100})`,
                                 transformOrigin: 'left', // Change to left to make the progress decrease from left to right
                                 zIndex: 1,
