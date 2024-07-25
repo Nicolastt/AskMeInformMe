@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {Alert, Button, Container, Form, FormGroup, Input, Label} from 'reactstrap';
+import {Alert, Button, Card, CardBody, CardTitle, Col, Container, Form, FormGroup, Input, Label, Row} from 'reactstrap';
 import {useNavigate} from 'react-router-dom';
 
 const Login = ({onLogin}) => {
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate(); // Hook para la navegación
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,11 +22,10 @@ const Login = ({onLogin}) => {
                     setError(data.error);
                     setMessage('');
                 } else {
-                    onLogin(data.imagePath);  // Pasa la ruta de la imagen al componente App
+                    onLogin(data.imagePath);
                     setMessage('Login successful');
                     setError('');
-                    // Redirige a la página de preguntas después de iniciar sesión exitosamente
-                    setTimeout(() => navigate('/pregunta'), 2000); // Redirige después de 2 segundos para que el mensaje sea visible
+                    setTimeout(() => navigate('/pregunta'), 2000);
                 }
             })
             .catch(() => {
@@ -36,23 +35,31 @@ const Login = ({onLogin}) => {
     };
 
     return (
-        <Container>
-            <h2>Login</h2>
-            <Form onSubmit={handleSubmit}>
-                <FormGroup>
-                    <Label for="name">Name</Label>
-                    <Input
-                        type="text"
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                </FormGroup>
-                <Button type="submit">Login</Button>
-                {message && <Alert color="success">{message}</Alert>}
-                {error && <Alert color="danger">{error}</Alert>}
-            </Form>
+        <Container className="mt-5">
+            <Row className="justify-content-center">
+                <Col md="6">
+                    <Card className="shadow-lg">
+                        <CardBody>
+                            <CardTitle tag="h2" className="text-center mb-4">Login</CardTitle>
+                            <Form onSubmit={handleSubmit}>
+                                <FormGroup>
+                                    <Label for="name">Name</Label>
+                                    <Input
+                                        type="text"
+                                        id="name"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        required
+                                    />
+                                </FormGroup>
+                                <Button type="submit" color="primary" block className="mb-3">Login</Button>
+                            </Form>
+                            {message && <Alert color="success" className="mt-3">{message}</Alert>}
+                            {error && <Alert color="danger" className="mt-3">{error}</Alert>}
+                        </CardBody>
+                    </Card>
+                </Col>
+            </Row>
         </Container>
     );
 };
