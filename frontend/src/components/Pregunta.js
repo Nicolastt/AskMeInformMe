@@ -1,16 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {Badge, Button, Card, CardBody, Col, Container, Row} from 'reactstrap';
 import {CountdownCircleTimer} from 'react-countdown-circle-timer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Pregunta.css';
+import Score from './Score';
 
-const Pregunta = ({userImage}) => {
+const Pregunta = ({userImage, userName}) => {
     const [preguntaActual, setPreguntaActual] = useState(0);
     const [preguntas, setPreguntas] = useState([]);
     const [puntaje, setPuntaje] = useState(0);
     const [respuestaSeleccionada, setRespuestaSeleccionada] = useState(null);
     const [respuestaCorrecta, setRespuestaCorrecta] = useState(null);
+    const [tiempoRestante, setTiempoRestante] = useState(30);
     const [isPaused, setIsPaused] = useState(false);
+    const [finalizado, setFinalizado] = useState(false);
+    const [totalTime, setTotalTime] = useState(0);
+    const timerRef = useRef(null);
 
     useEffect(() => {
         fetch('/get_questions')
@@ -21,10 +26,10 @@ const Pregunta = ({userImage}) => {
     }, []);
 
     useEffect(() => {
-        if (preguntas.length > 0 && !isPaused) {
-            setRespuestaCorrecta(null); // Resetea la respuesta correcta al cambiar de pregunta
+        if (tiempoRestante === 0) {
+            setRespuestaCorrecta(preguntas[preguntaActual]?.opciones.find(opcion => opcion.Es_Correcta));
         }
-    }, [isPaused, preguntaActual, preguntas]);
+    }, [tiempoRestante, preguntaActual, preguntas]);
 
     const handleRespuestaSeleccionada = (respuesta) => {
         setRespuestaSeleccionada(respuesta);
@@ -45,14 +50,24 @@ const Pregunta = ({userImage}) => {
     };
 
     const siguientePregunta = () => {
-        setRespuestaSeleccionada(null);
-        setRespuestaCorrecta(null);
-        setPreguntaActual(preguntaActual + 1);
-        setIsPaused(false);
+        setTotalTime(totalTime + (30 - tiempoRestante));
+        if (preguntaActual + 1 < preguntas.length) {
+            setRespuestaSeleccionada(null);
+            setRespuestaCorrecta(null);
+            setPreguntaActual(preguntaActual + 1);
+            setTiempoRestante(30);
+            setIsPaused(false);
+        } else {
+            setFinalizado(true);
+        }
     };
 
     if (preguntas.length === 0) {
         return <div>Cargando preguntas...</div>;
+    }
+
+    if (finalizado) {
+        return <Score userName={userName} userImage={userImage} puntaje={puntaje} totalTime={totalTime} />;
     }
 
     return (
@@ -97,8 +112,7 @@ const Pregunta = ({userImage}) => {
                                     {respuestaSeleccionada?.ID === respuestaCorrecta.ID ? (
                                         <h5 className="text-success">¡Correcto!</h5>
                                     ) : (
-                                        <h5 className="text-danger">Incorrecto. La respuesta correcta
-                                            es: {respuestaCorrecta.Texto}</h5>
+                                        <h5 className="text-danger">Incorrecto. La respuesta correcta es: {respuestaCorrecta.Texto}</h5>
                                     )}
                                     <Button color="primary" onClick={siguientePregunta}>
                                         Siguiente Pregunta
@@ -115,14 +129,16 @@ const Pregunta = ({userImage}) => {
                         isPlaying={!isPaused}
                         duration={30}
                         colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000', 0.33]]}
-                        key={preguntaActual} // Esto reinicia el temporizador cada vez que cambie la pregunta
+                        key={preguntaActual} // Esto hará que el temporizador se reinicie cuando cambie la pregunta
                         onComplete={() => {
                             setIsPaused(true);
-                            const correcta = preguntas[preguntaActual]?.opciones.find(opcion => opcion.Es_Correcta);
-                            setRespuestaCorrecta(correcta);
+                            setTiempoRestante(0);
                         }}
                     >
-                        {({remainingTime}) => remainingTime}
+                        {({remainingTime}) => {
+                            setTiempoRestante(remainingTime);
+                            return remainingTime;
+                        }}
                     </CountdownCircleTimer>
                 </Col>
             </Row>
