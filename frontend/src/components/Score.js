@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Score.css';
 
 const Score = ({ userName, userImage, puntaje, totalTime }) => {
+    console.log('userName:', userName);
     return (
         <Container className="mt-4 score-container">
             <Row className="mb-4 justify-content-center">
