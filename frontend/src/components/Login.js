@@ -6,7 +6,7 @@ const Login = ({onLogin}) => {
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Hook para la navegación
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -34,6 +34,10 @@ const Login = ({onLogin}) => {
             });
     };
 
+    const handleGoBack = () => {
+        navigate('/');
+    };
+
     return (
         <Container className="mt-5">
             <Row className="justify-content-center">
@@ -56,6 +60,7 @@ const Login = ({onLogin}) => {
                             </Form>
                             {message && <Alert color="success" className="mt-3">{message}</Alert>}
                             {error && <Alert color="danger" className="mt-3">{error}</Alert>}
+                            <Button color="secondary" block onClick={handleGoBack}>Go Back</Button>
                         </CardBody>
                     </Card>
                 </Col>
