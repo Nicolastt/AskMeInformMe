@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Badge, Button, Card, CardBody, Col, Container, Row} from 'reactstrap';
 import {CountdownCircleTimer} from 'react-countdown-circle-timer';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/Pregunta.css';
 
 const Pregunta = ({userImage}) => {
     const [preguntaActual, setPreguntaActual] = useState(0);
@@ -9,33 +10,33 @@ const Pregunta = ({userImage}) => {
     const [puntaje, setPuntaje] = useState(0);
     const [respuestaSeleccionada, setRespuestaSeleccionada] = useState(null);
     const [respuestaCorrecta, setRespuestaCorrecta] = useState(null);
-    const [tiempoRestante, setTiempoRestante] = useState(30);
+    const [isPaused, setIsPaused] = useState(false);
 
     useEffect(() => {
         fetch('/get_questions')
             .then(response => response.json())
             .then(data => {
                 setPreguntas(data);
-            })
-            .catch(error => console.error('Error fetching questions:', error));
+            });
     }, []);
 
     useEffect(() => {
-        if (tiempoRestante === 0) {
-            setRespuestaCorrecta(preguntas[preguntaActual]?.opciones.find(opcion => opcion.Es_Correcta));
+        if (preguntas.length > 0 && !isPaused) {
+            setRespuestaCorrecta(null); // Resetea la respuesta correcta al cambiar de pregunta
         }
-    }, [tiempoRestante, preguntaActual, preguntas]);
+    }, [isPaused, preguntaActual, preguntas]);
 
     const handleRespuestaSeleccionada = (respuesta) => {
         setRespuestaSeleccionada(respuesta);
+        setIsPaused(true);
         const correcta = preguntas[preguntaActual]?.opciones.find(opcion => opcion.Es_Correcta);
 
         if (respuesta.ID === correcta?.ID) {
-            if (preguntas[preguntaActual].Dificultad === 'Fácil') {
+            if (preguntas[preguntaActual]?.Dificultad === 'Fácil') {
                 setPuntaje(puntaje + 10);
-            } else if (preguntas[preguntaActual].Dificultad === 'Media') {
+            } else if (preguntas[preguntaActual]?.Dificultad === 'Media') {
                 setPuntaje(puntaje + 20);
-            } else if (preguntas[preguntaActual].Dificultad === 'Difícil') {
+            } else if (preguntas[preguntaActual]?.Dificultad === 'Difícil') {
                 setPuntaje(puntaje + 30);
             }
         }
@@ -47,7 +48,7 @@ const Pregunta = ({userImage}) => {
         setRespuestaSeleccionada(null);
         setRespuestaCorrecta(null);
         setPreguntaActual(preguntaActual + 1);
-        setTiempoRestante(30);
+        setIsPaused(false);
     };
 
     if (preguntas.length === 0) {
@@ -60,11 +61,10 @@ const Pregunta = ({userImage}) => {
                 <Col className="d-flex justify-content-between align-items-center">
                     <div>
                         <h2>Pregunta {preguntaActual + 1}</h2>
-                        <Badge color="primary">{preguntas[preguntaActual].Categoria}</Badge>
+                        <Badge color="primary">{preguntas[preguntaActual]?.Categoria}</Badge>
                     </div>
                     <div>
-                        <img src={`/uploads/${userImage}`} alt="Usuario" className="img-fluid rounded-circle" width="50"
-                             height="50"/>
+                        <img src={userImage} alt="Usuario" className="img-usuario"/>
                     </div>
                     <div>
                         <h3>Puntaje: {puntaje}</h3>
@@ -76,10 +76,10 @@ const Pregunta = ({userImage}) => {
                     <Card>
                         <CardBody>
                             <div className="mb-4">
-                                <h4>{preguntas[preguntaActual].Texto}</h4>
+                                <h4>{preguntas[preguntaActual]?.Texto}</h4>
                             </div>
                             <Row>
-                                {preguntas[preguntaActual].opciones.map((opcion, index) => (
+                                {preguntas[preguntaActual]?.opciones.map((opcion, index) => (
                                     <Col xs="6" className="mb-3" key={index}>
                                         <Button
                                             color={respuestaSeleccionada && respuestaSeleccionada.ID === opcion.ID ? 'primary' : 'secondary'}
@@ -112,12 +112,17 @@ const Pregunta = ({userImage}) => {
             <Row className="mt-4">
                 <Col className="d-flex justify-content-center">
                     <CountdownCircleTimer
-                        isPlaying
+                        isPlaying={!isPaused}
                         duration={30}
                         colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000', 0.33]]}
-                        onComplete={() => setTiempoRestante(0)}
+                        key={preguntaActual} // Esto reinicia el temporizador cada vez que cambie la pregunta
+                        onComplete={() => {
+                            setIsPaused(true);
+                            const correcta = preguntas[preguntaActual]?.opciones.find(opcion => opcion.Es_Correcta);
+                            setRespuestaCorrecta(correcta);
+                        }}
                     >
-                        {({remainingTime}) => setTiempoRestante(remainingTime)}
+                        {({remainingTime}) => remainingTime}
                     </CountdownCircleTimer>
                 </Col>
             </Row>
