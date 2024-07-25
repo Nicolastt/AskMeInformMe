@@ -5,7 +5,7 @@ import '../css/Pregunta.css';
 import Score from './Score';
 
 const Pregunta = ({userImage, userName}) => {
-    const tiempo_pregunta = 15; // Tiempo inicial de 30 segundos
+    const tiempo_pregunta = 15;
     const [preguntaActual, setPreguntaActual] = useState(0);
     const [preguntas, setPreguntas] = useState([]);
     const [puntaje, setPuntaje] = useState(0);
