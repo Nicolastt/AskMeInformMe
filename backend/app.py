@@ -9,9 +9,11 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'C:/projects/AskMeInformMe/backend/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 @app.route('/uploads/<filename>')
 def get_image(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 
 # Configura la conexión a la base de datos
 def get_db_connection():
@@ -126,15 +128,16 @@ def login_user():
 
     try:
         cursor.execute("""
-            SELECT RutaImagen 
-            FROM Usuarios 
+            SELECT Nombre, RutaImagen
+            FROM Usuarios
             WHERE Nombre = :1
         """, (user_name,))
 
         result = cursor.fetchone()
         if result:
-            image_path = result[0]
-            return jsonify({'imagePath': f'/uploads/{image_path}'}), 200
+            name, image_path = result
+            image_url = f'/uploads/{image_path}'
+            return jsonify({'name': name, 'imagePath': image_url}), 200
         else:
             return jsonify({'error': 'User not found'}), 404
     except Exception as e:
