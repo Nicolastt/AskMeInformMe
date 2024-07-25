@@ -13,7 +13,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Ruta para servir archivos estáticos
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    return send_from_directory('static/uploads', filename)
 
 # Configura la conexión a la base de datos
 def get_db_connection():
@@ -32,7 +32,6 @@ def get_questions():
     cursor = connection.cursor()
 
     try:
-        # Obtener todas las preguntas ordenadas por dificultad y categoría
         query = """
             SELECT p.ID, p.Texto, p.Dificultad, p.Categoria 
             FROM Preguntas p
@@ -54,22 +53,22 @@ def get_questions():
             dificultad = pregunta[2]
             categoria = pregunta[3]
 
-            # Obtener las opciones para la pregunta actual
-            cursor.execute("SELECT * FROM Opciones WHERE Pregunta_ID = :id", {'id': pregunta_id})
+            cursor.execute("SELECT ID, Texto, Es_Correcta FROM Opciones WHERE Pregunta_ID = :id", {'id': pregunta_id})
             opciones = cursor.fetchall()
 
             opciones_list = []
             for opcion in opciones:
                 opciones_list.append({
-                    'texto': opcion[2],
-                    'es_correcta': opcion[3]
+                    'ID': opcion[0],
+                    'Texto': opcion[1],
+                    'Es_Correcta': opcion[2]
                 })
 
             result.append({
-                'id': pregunta_id,
-                'texto': texto,
-                'dificultad': dificultad,
-                'categoria': categoria,
+                'ID': pregunta_id,
+                'Texto': texto,
+                'Dificultad': dificultad,
+                'Categoria': categoria,
                 'opciones': opciones_list
             })
 
@@ -137,7 +136,7 @@ def login_user():
         result = cursor.fetchone()
         if result:
             image_path = result[0]
-            return jsonify({'imagePath': image_path}), 200
+            return jsonify({'imagePath': f'/uploads/{image_path}'}), 200
         else:
             return jsonify({'error': 'User not found'}), 404
     except Exception as e:
