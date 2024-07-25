@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { Badge, Button, Card, CardBody, Col, Container, Row } from 'reactstrap';
+import React, {useEffect, useState} from 'react';
+import {Badge, Button, Card, CardBody, Col, Container, Row} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Pregunta.css';
 import Score from './Score';
 
-const Pregunta = ({ userImage, userName }) => {
+const Pregunta = ({userImage, userName}) => {
+    const tiempo_pregunta = 15; // Tiempo inicial de 30 segundos
     const [preguntaActual, setPreguntaActual] = useState(0);
     const [preguntas, setPreguntas] = useState([]);
     const [puntaje, setPuntaje] = useState(0);
     const [respuestaSeleccionada, setRespuestaSeleccionada] = useState(null);
     const [respuestaCorrecta, setRespuestaCorrecta] = useState(null);
-    const [tiempoRestante, setTiempoRestante] = useState(30); // Tiempo inicial de 30 segundos
+    const [tiempoRestante, setTiempoRestante] = useState(tiempo_pregunta);
     const [isPaused, setIsPaused] = useState(false);
     const [finalizado, setFinalizado] = useState(false);
     const [totalTime, setTotalTime] = useState(0);
@@ -69,12 +70,12 @@ const Pregunta = ({ userImage, userName }) => {
     };
 
     const siguientePregunta = () => {
-        setTotalTime(totalTime + (30 - tiempoRestante));
+        setTotalTime(totalTime + (tiempo_pregunta - tiempoRestante));
         if (preguntaActual + 1 < preguntas.length) {
             setRespuestaSeleccionada(null);
             setRespuestaCorrecta(null);
             setPreguntaActual(preguntaActual + 1);
-            setTiempoRestante(30); // Actualiza dinámicamente según la dificultad
+            setTiempoRestante(tiempo_pregunta); // Actualiza dinámicamente según la dificultad
             setIsPaused(false);
         } else {
             setFinalizado(true);
@@ -86,16 +87,15 @@ const Pregunta = ({ userImage, userName }) => {
     }
 
     if (finalizado) {
-        return <Score userName={userName} userImage={userImage} puntaje={puntaje} totalTime={totalTime} />;
+        return <Score userName={userName} userImage={userImage} puntaje={puntaje} totalTime={totalTime}/>;
     }
 
     // Calculate the progress as a percentage of the original duration
-    const totalDuration = 30; // Puede ser dinámico
-    const progressPercentage = (tiempoRestante / totalDuration) * 100; // Calculate remaining time as percentage
+    const progressPercentage = (tiempoRestante / tiempo_pregunta) * 100; // Calculate remaining time as percentage
 
     // Calculate thresholds for color changes
-    const threshold1 = (totalDuration / 3) * 2;
-    const threshold2 = totalDuration / 3;
+    const threshold1 = (tiempo_pregunta / 3) * 2;
+    const threshold2 = tiempo_pregunta / 3;
 
     // Determine color based on the remaining time
     const getProgressColor = (remainingTime) => {
@@ -117,7 +117,7 @@ const Pregunta = ({ userImage, userName }) => {
                         <Badge color="primary">{preguntas[preguntaActual]?.Categoria}</Badge>
                     </div>
                     <div>
-                        <img src={userImage} alt="Usuario" className="img-usuario" />
+                        <img src={userImage} alt="Usuario" className="img-usuario"/>
                     </div>
                     <div>
                         <h3>Puntaje: {puntaje}</h3>
@@ -150,7 +150,8 @@ const Pregunta = ({ userImage, userName }) => {
                                     {respuestaSeleccionada?.ID === respuestaCorrecta.ID ? (
                                         <h5 className="text-success">¡Correcto!</h5>
                                     ) : (
-                                        <h5 className="text-danger">Incorrecto. La respuesta correcta es: {respuestaCorrecta.Texto}</h5>
+                                        <h5 className="text-danger">Incorrecto. La respuesta correcta
+                                            es: {respuestaCorrecta.Texto}</h5>
                                     )}
                                     <Button color="primary" onClick={siguientePregunta}>
                                         Siguiente Pregunta
@@ -163,7 +164,7 @@ const Pregunta = ({ userImage, userName }) => {
             </Row>
             <Row className="mt-4">
                 <Col className="d-flex justify-content-center">
-                    <div style={{ width: '100%', position: 'relative' }}>
+                    <div style={{width: '100%', position: 'relative'}}>
                         <div
                             style={{
                                 position: 'absolute',
@@ -172,13 +173,14 @@ const Pregunta = ({ userImage, userName }) => {
                                 width: '100%',
                                 height: '5px',
                                 backgroundColor: getProgressColor(tiempoRestante),
-                                transition: 'transform 0.1s linear',
+                                transition: 'transform 0.1s linear', // Adjusted transition for smoother animation
                                 transform: `scaleX(${progressPercentage / 100})`,
                                 transformOrigin: 'left', // Change to left to make the progress decrease from left to right
                                 zIndex: 1,
                             }}
                         />
-                        <div className="text-center mt-2" style={{ fontSize: '24px', fontWeight: 'bold', position: 'relative', zIndex: 2 }}>
+                        <div className="text-center mt-2"
+                             style={{fontSize: '24px', fontWeight: 'bold', position: 'relative', zIndex: 2}}>
                             {Math.ceil(tiempoRestante)}
                         </div>
                     </div>
