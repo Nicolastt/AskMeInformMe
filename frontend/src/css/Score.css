@@ -1,0 +1,50 @@
+.score-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.resultados-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.img-usuario {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 4px solid #6c757d;
+}
+
+.user-name {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.profile-card {
+    border: none;
+    background-color: #ffffff;
+    padding-bottom: 20px;
+}
+
+.score-card {
+    border: none;
+    border-radius: 12px;
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+.final-score, .total-time {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.text-success {
+    color: #28a745;
+}
+
+.text-primary {
+    color: #007bff;
+}
