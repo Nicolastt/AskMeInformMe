@@ -1,21 +1,19 @@
-import React, {useEffect, useState, useRef} from 'react';
-import {Badge, Button, Card, CardBody, Col, Container, Row} from 'reactstrap';
-import {CountdownCircleTimer} from 'react-countdown-circle-timer';
+import React, { useEffect, useState } from 'react';
+import { Badge, Button, Card, CardBody, Col, Container, Row } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Pregunta.css';
 import Score from './Score';
 
-const Pregunta = ({userImage, userName}) => {
+const Pregunta = ({ userImage, userName }) => {
     const [preguntaActual, setPreguntaActual] = useState(0);
     const [preguntas, setPreguntas] = useState([]);
     const [puntaje, setPuntaje] = useState(0);
     const [respuestaSeleccionada, setRespuestaSeleccionada] = useState(null);
     const [respuestaCorrecta, setRespuestaCorrecta] = useState(null);
-    const [tiempoRestante, setTiempoRestante] = useState(30);
+    const [tiempoRestante, setTiempoRestante] = useState(30); // Tiempo inicial de 30 segundos
     const [isPaused, setIsPaused] = useState(false);
     const [finalizado, setFinalizado] = useState(false);
     const [totalTime, setTotalTime] = useState(0);
-    const timerRef = useRef(null);
 
     useEffect(() => {
         fetch('/get_questions')
@@ -30,6 +28,27 @@ const Pregunta = ({userImage, userName}) => {
             setRespuestaCorrecta(preguntas[preguntaActual]?.opciones.find(opcion => opcion.Es_Correcta));
         }
     }, [tiempoRestante, preguntaActual, preguntas]);
+
+    useEffect(() => {
+        let interval = null;
+
+        if (!isPaused && !finalizado) {
+            interval = setInterval(() => {
+                setTiempoRestante(prevTime => {
+                    if (prevTime > 0) {
+                        return prevTime - 0.1; // Reduce tiempo en 0.1 segundos
+                    } else {
+                        clearInterval(interval);
+                        return 0;
+                    }
+                });
+            }, 100); // Actualización cada 0.10 segundos
+        } else if (isPaused || finalizado) {
+            clearInterval(interval);
+        }
+
+        return () => clearInterval(interval);
+    }, [isPaused, finalizado]);
 
     const handleRespuestaSeleccionada = (respuesta) => {
         setRespuestaSeleccionada(respuesta);
@@ -55,7 +74,7 @@ const Pregunta = ({userImage, userName}) => {
             setRespuestaSeleccionada(null);
             setRespuestaCorrecta(null);
             setPreguntaActual(preguntaActual + 1);
-            setTiempoRestante(30);
+            setTiempoRestante(30); // Actualiza dinámicamente según la dificultad
             setIsPaused(false);
         } else {
             setFinalizado(true);
@@ -70,6 +89,25 @@ const Pregunta = ({userImage, userName}) => {
         return <Score userName={userName} userImage={userImage} puntaje={puntaje} totalTime={totalTime} />;
     }
 
+    // Calculate the progress as a percentage of the original duration
+    const totalDuration = 30; // Puede ser dinámico
+    const progressPercentage = (tiempoRestante / totalDuration) * 100; // Calculate remaining time as percentage
+
+    // Calculate thresholds for color changes
+    const threshold1 = (totalDuration / 3) * 2;
+    const threshold2 = totalDuration / 3;
+
+    // Determine color based on the remaining time
+    const getProgressColor = (remainingTime) => {
+        if (remainingTime > threshold1) {
+            return '#48c448'; // Green
+        } else if (remainingTime > threshold2) {
+            return '#f3f352'; // Yellow
+        } else {
+            return '#e04040'; // Red
+        }
+    };
+
     return (
         <Container className="mt-4">
             <Row className="mb-3">
@@ -79,7 +117,7 @@ const Pregunta = ({userImage, userName}) => {
                         <Badge color="primary">{preguntas[preguntaActual]?.Categoria}</Badge>
                     </div>
                     <div>
-                        <img src={userImage} alt="Usuario" className="img-usuario"/>
+                        <img src={userImage} alt="Usuario" className="img-usuario" />
                     </div>
                     <div>
                         <h3>Puntaje: {puntaje}</h3>
@@ -125,21 +163,25 @@ const Pregunta = ({userImage, userName}) => {
             </Row>
             <Row className="mt-4">
                 <Col className="d-flex justify-content-center">
-                    <CountdownCircleTimer
-                        isPlaying={!isPaused}
-                        duration={30}
-                        colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000', 0.33]]}
-                        key={preguntaActual} // Esto hará que el temporizador se reinicie cuando cambie la pregunta
-                        onComplete={() => {
-                            setIsPaused(true);
-                            setTiempoRestante(0);
-                        }}
-                    >
-                        {({remainingTime}) => {
-                            setTiempoRestante(remainingTime);
-                            return remainingTime;
-                        }}
-                    </CountdownCircleTimer>
+                    <div style={{ width: '100%', position: 'relative' }}>
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '5px',
+                                backgroundColor: getProgressColor(tiempoRestante),
+                                transition: 'width 0.1s ease-in-out',
+                                transform: `scaleX(${progressPercentage / 100})`,
+                                transformOrigin: 'left', // Change to left to make the progress decrease from left to right
+                                zIndex: 1,
+                            }}
+                        />
+                        <div className="text-center mt-2" style={{ fontSize: '24px', fontWeight: 'bold', position: 'relative', zIndex: 2 }}>
+                            {Math.ceil(tiempoRestante)}
+                        </div>
+                    </div>
                 </Col>
             </Row>
         </Container>
