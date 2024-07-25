@@ -29,19 +29,23 @@ const Register = () => {
       method: 'POST',
       body: formData,
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.error) {
-        setError(data.error);
-        setMessage('');
-      } else {
-        setMessage(data.message);
-        setError('');
-        // Redirige a HomePage después de la creación exitosa
-        setTimeout(() => navigate('/'), 2000); // Redirige después de 2 segundos para que el mensaje sea visible
-      }
-    })
-    .catch(() => setError('An unexpected error occurred'));
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          setError(data.error);
+          setMessage('');
+        } else {
+          setMessage(data.message);
+          setError('');
+          // Redirige a HomePage después de la creación exitosa
+          setTimeout(() => navigate('/'), 2000); // Redirige después de 2 segundos para que el mensaje sea visible
+        }
+      })
+      .catch(() => setError('An unexpected error occurred'));
+  };
+
+  const handleGoBack = () => {
+    navigate('/');
   };
 
   return (
@@ -67,9 +71,10 @@ const Register = () => {
             required
           />
         </FormGroup>
-        <Button type="submit">Register</Button>
-        {message && <Alert color="success">{message}</Alert>}
-        {error && <Alert color="danger">{error}</Alert>}
+        <Button type="submit" color="primary" className="mr-2">Register</Button>
+        <Button type="button" color="secondary" onClick={handleGoBack}>Go Back</Button>
+        {message && <Alert color="success" className="mt-3">{message}</Alert>}
+        {error && <Alert color="danger" className="mt-3">{error}</Alert>}
       </Form>
     </Container>
   );
