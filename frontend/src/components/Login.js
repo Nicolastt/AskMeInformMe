@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {Alert, Button, Card, CardBody, CardTitle, Col, Container, Form, FormGroup, Input, Label, Row} from 'reactstrap';
-import {useNavigate} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Alert, Button, Card, CardBody, CardTitle, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 
-const Login = ({onLogin}) => {
+const Login = ({ onLogin }) => {
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
@@ -13,8 +13,8 @@ const Login = ({onLogin}) => {
 
         fetch('/login_user', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({name}),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name }),
         })
             .then(response => response.json())
             .then(data => {
@@ -22,7 +22,7 @@ const Login = ({onLogin}) => {
                     setError(data.error);
                     setMessage('');
                 } else {
-                    onLogin(data.imagePath);
+                    onLogin(data.name, data.imagePath); // Pass the name and imagePath
                     setMessage('Login successful');
                     setError('');
                     setTimeout(() => navigate('/pregunta'), 2000);
