@@ -1,8 +1,19 @@
-from flask import Flask, jsonify
+import os
+
 import oracledb
+from flask import Flask, jsonify, request, send_from_directory
 
 app = Flask(__name__)
 
+# Configura la carpeta de uploads
+UPLOAD_FOLDER = 'backend/uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+# Ruta para servir archivos estáticos
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 # Configura la conexión a la base de datos
 def get_db_connection():
@@ -63,6 +74,72 @@ def get_questions():
             })
 
         return jsonify(result)
+    except Exception as e:
+        return str(e), 500
+    finally:
+        cursor.close()
+        connection.close()
+
+
+# Endpoint para registrar un usuario
+@app.route('/register_user', methods=['POST'])
+def register_user():
+    if 'image' not in request.files:
+        return jsonify({'error': 'No file part'}), 400
+
+    file = request.files['image']
+    name = request.form.get('name')
+
+    if not name or file.filename == '':
+        return jsonify({'error': 'Name and image are required'}), 400
+
+    if file:
+        # Guarda el archivo en el directorio de uploads
+        filename = file.filename
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        try:
+            cursor.execute("""
+                INSERT INTO Usuarios (Nombre, RutaImagen) 
+                VALUES (:1, :2)
+            """, (name, filename))
+            connection.commit()
+            return jsonify({'message': 'User registered successfully'}), 201
+        except Exception as e:
+            return str(e), 500
+        finally:
+            cursor.close()
+            connection.close()
+
+
+@app.route('/login_user', methods=['POST'])
+def login_user():
+    data = request.get_json()
+    user_name = data.get('name')
+
+    if not user_name:
+        return jsonify({'error': 'Name is required'}), 400
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("""
+            SELECT RutaImagen 
+            FROM Usuarios 
+            WHERE Nombre = :1
+        """, (user_name,))
+
+        result = cursor.fetchone()
+        if result:
+            image_path = result[0]
+            return jsonify({'imagePath': image_path}), 200
+        else:
+            return jsonify({'error': 'User not found'}), 404
     except Exception as e:
         return str(e), 500
     finally:
