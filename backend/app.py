@@ -6,14 +6,12 @@ from flask import Flask, jsonify, request, send_from_directory
 app = Flask(__name__)
 
 # Configura la carpeta de uploads
-UPLOAD_FOLDER = 'backend/uploads'
+UPLOAD_FOLDER = 'C:/projects/AskMeInformMe/backend/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
-# Ruta para servir archivos estáticos
 @app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory('static/uploads', filename)
+def get_image(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 # Configura la conexión a la base de datos
 def get_db_connection():
