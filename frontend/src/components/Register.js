@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
+import { Container, Form, FormGroup, Label, Input, Button, Alert, Row, Col, Card, CardBody, CardTitle } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
@@ -7,7 +7,7 @@ const Register = () => {
   const [imageFile, setImageFile] = useState(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Hook para la navegación
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     setImageFile(e.target.files[0]);
@@ -37,8 +37,7 @@ const Register = () => {
         } else {
           setMessage(data.message);
           setError('');
-          // Redirige a HomePage después de la creación exitosa
-          setTimeout(() => navigate('/'), 2000); // Redirige después de 2 segundos para que el mensaje sea visible
+          setTimeout(() => navigate('/'), 2000);
         }
       })
       .catch(() => setError('An unexpected error occurred'));
@@ -49,33 +48,41 @@ const Register = () => {
   };
 
   return (
-    <Container>
-      <h2>Register</h2>
-      <Form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label for="name">Name</Label>
-          <Input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="image">Image</Label>
-          <Input
-            type="file"
-            id="image"
-            onChange={handleFileChange}
-            required
-          />
-        </FormGroup>
-        <Button type="submit" color="primary" className="mr-2">Register</Button>
-        <Button type="button" color="secondary" onClick={handleGoBack}>Go Back</Button>
-        {message && <Alert color="success" className="mt-3">{message}</Alert>}
-        {error && <Alert color="danger" className="mt-3">{error}</Alert>}
-      </Form>
+    <Container className="mt-5">
+      <Row className="justify-content-center">
+        <Col md="6">
+          <Card className="shadow-lg">
+            <CardBody>
+              <CardTitle tag="h2" className="text-center mb-4">Register</CardTitle>
+              <Form onSubmit={handleSubmit}>
+                <FormGroup>
+                  <Label for="name">Name</Label>
+                  <Input
+                    type="text"
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="image">Image</Label>
+                  <Input
+                    type="file"
+                    id="image"
+                    onChange={handleFileChange}
+                    required
+                  />
+                </FormGroup>
+                <Button type="submit" color="primary" className="mr-2 mb-3" block>Register</Button>
+                <Button type="button" color="secondary" onClick={handleGoBack} block>Go Back</Button>
+              </Form>
+              {message && <Alert color="success" className="mt-3">{message}</Alert>}
+              {error && <Alert color="danger" className="mt-3">{error}</Alert>}
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
     </Container>
   );
 };
