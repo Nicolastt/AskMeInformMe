@@ -1,42 +1,57 @@
 import React from 'react';
-import { Card, CardBody, Col, Container, Row, CardImg, CardTitle, CardText } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row, CardImg, CardTitle, CardText, Progress, Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Score.css';
 
 const Score = ({ userName, userImage, puntaje, totalTime }) => {
-    console.log('userName:', userName);
+    // Format totalTime with two decimal places
+    const formattedTime = totalTime.toFixed(2);
+
+    // Define a maximum score for the progress bar
+    const maxScore = 130;
+    const scorePercentage = (puntaje / maxScore) * 100;
+
     return (
         <Container className="mt-4 score-container">
             <Row className="mb-4 justify-content-center">
                 <Col md="12" className="text-center">
-                    <h1 className="resultados-title">Resultados</h1>
-                    <h2 className="user-name mt-3">{userName}</h2>
+                    <h1 className="resultados-title mb-4">¡Felicidades, {userName}!</h1>
+                    <p className="lead">¡Has hecho un gran trabajo! Aquí están tus resultados finales.</p>
                 </Col>
             </Row>
             <Row className="mb-4 justify-content-center">
                 <Col md="6" className="text-center">
-                    <Card className="profile-card">
+                    <Card className="profile-card shadow-sm border-light">
                         <CardImg top src={userImage} alt="Usuario" className="img-usuario rounded-circle mx-auto mt-3" />
                         <CardBody>
-                            <CardTitle tag="h4" className="user-name">{userName}</CardTitle>
+                            <CardTitle tag="h4" className="user-name mb-2">{userName}</CardTitle>
                         </CardBody>
                     </Card>
                 </Col>
             </Row>
             <Row className="justify-content-center">
                 <Col md="8">
-                    <Card className="score-card shadow-sm text-center">
+                    <Card className="score-card shadow-lg text-center border-light">
                         <CardBody>
-                            <CardText tag="h4" className="final-score">
+                            <CardText tag="h5" className="final-score mb-2">
                                 <strong>Puntaje Final:</strong> <span className="text-success">{puntaje}</span>
                             </CardText>
-                            <CardText tag="h4" className="total-time">
-                                <strong>Tiempo Total:</strong> <span className="text-primary">{totalTime} segundos</span>
+                            <CardText tag="h5" className="total-time mb-3">
+                                <strong>Tiempo Total:</strong> <span className="text-primary">{formattedTime} segundos</span>
                             </CardText>
+                            <div className="progress-bar-container mb-3">
+                                <strong>Progreso:</strong>
+                                <Progress color="success" value={scorePercentage} />
+                                <p className="progress-text">{puntaje} / {maxScore} puntos</p>
+                            </div>
+                            <Button color="success" href="/" className="mt-3 ms-2">
+                                Volver al inicio
+                            </Button>
                         </CardBody>
                     </Card>
                 </Col>
             </Row>
+
         </Container>
     );
 };
