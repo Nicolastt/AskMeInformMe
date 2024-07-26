@@ -53,10 +53,11 @@ const Register = () => {
         <Col md="6">
           <Card className="shadow-lg">
             <CardBody>
-              <CardTitle tag="h2" className="text-center mb-4">Register</CardTitle>
+              <CardTitle tag="h2" className="text-center mb-4">Registrarte</CardTitle>
+              <p style={{textAlign: 'center', fontSize: '0.875rem'}}>Es rápido y fácil.</p>
               <Form onSubmit={handleSubmit}>
                 <FormGroup>
-                  <Label for="name">Name</Label>
+                <Label for="name">Nombre</Label>
                   <Input
                     type="text"
                     id="name"
@@ -66,7 +67,7 @@ const Register = () => {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="image">Image</Label>
+                  <Label for="image">Imagen</Label>
                   <Input
                     type="file"
                     id="image"
@@ -74,8 +75,8 @@ const Register = () => {
                     required
                   />
                 </FormGroup>
-                <Button type="submit" color="primary" className="mr-2 mb-3" block>Register</Button>
-                <Button type="button" color="secondary" onClick={handleGoBack} block>Go Back</Button>
+                <Button type="submit" color="primary" className="mr-2 mb-3" block>Registrar</Button>
+                <Button type="button" color="secondary" onClick={handleGoBack} block>Volver</Button>
               </Form>
               {message && <Alert color="success" className="mt-3">{message}</Alert>}
               {error && <Alert color="danger" className="mt-3">{error}</Alert>}
