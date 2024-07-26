@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import {Card, CardBody, CardTitle, CardText, CardFooter, Col, Row, Spinner, CardImg} from 'reactstrap';
+import React, {useEffect, useState} from 'react';
+import {Card, CardBody, CardText, CardTitle, Col, Row, Spinner} from 'reactstrap';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/DatoCurioso.css';
 
-const DatosCuriosos = ({ questionId }) => {
+const DatosCuriosos = ({questionId}) => {
     const [datoCurioso, setDatoCurioso] = useState(null);
 
     useEffect(() => {
@@ -30,7 +32,7 @@ const DatosCuriosos = ({ questionId }) => {
     return (
         <Row className="mt-4">
             <Col sm="6">
-                <Card>
+                <Card className="card-animacion">
                     <CardBody>
                         <CardTitle tag="h3">Dato Curioso</CardTitle>
                         <CardText>{datoCurioso.texto}</CardText>
@@ -38,7 +40,7 @@ const DatosCuriosos = ({ questionId }) => {
                 </Card>
             </Col>
             <Col sm="6">
-                <Card>
+                <Card className="card-animacion">
                     <CardBody>
                         <CardTitle tag="h4">Enlaces</CardTitle>
                         <ul>
