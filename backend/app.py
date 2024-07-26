@@ -147,5 +147,73 @@ def login_user():
         connection.close()
 
 
+@app.route('/save_score', methods=['POST'])
+def save_score():
+    data = request.get_json()
+    user_name = data.get('userName')
+    puntaje = data.get('puntaje')
+    total_time = data.get('totalTime')
+
+    if not user_name or puntaje is None or total_time is None:
+        return jsonify({'error': 'All fields are required'}), 400
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("""
+            SELECT ID FROM Usuarios WHERE Nombre = :1
+        """, (user_name,))
+        user_id = cursor.fetchone()
+
+        if user_id is None:
+            return jsonify({'error': 'User not found'}), 404
+
+        user_id = user_id[0]
+
+        cursor.execute("""
+            INSERT INTO Puntajes (Usuario_ID, Puntaje, Tiempo_Total)
+            VALUES (:1, :2, :3)
+        """, (user_id, puntaje, total_time))
+        connection.commit()
+        return jsonify({'message': 'Score saved successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        connection.close()
+
+@app.route('/get_high_scores', methods=['GET'])
+def get_high_scores():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        query = """
+            SELECT u.Nombre, p.Puntaje, p.Tiempo_Total
+            FROM Puntajes p
+            JOIN Usuarios u ON p.Usuario_ID = u.ID
+            ORDER BY p.Puntaje DESC, p.Tiempo_Total ASC
+            FETCH FIRST 5 ROWS ONLY
+        """
+        cursor.execute(query)
+        scores = cursor.fetchall()
+
+        result = []
+        for score in scores:
+            result.append({
+                'Nombre': score[0],
+                'Puntaje': score[1],
+                'Tiempo_Total': score[2]
+            })
+
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        connection.close()
+
+
 if __name__ == '__main__':
     app.run(debug=True)
