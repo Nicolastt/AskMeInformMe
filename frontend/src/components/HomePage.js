@@ -30,12 +30,17 @@ const HomePage = () => {
             </Row>
             <Row className="text-center">
                 <Col>
-                    <Button color="primary" size="lg" className="me-3 mb-3" href="/register">
+                    <Button color="dark" size="md" className="me-3 mb-3" href="/register">
                         Registrarse
                     </Button>
-                    <Button color="success" size="lg" className="mb-3" href="/login">
+                    <Button color="dark" size="md" className="me-3 mb-3" href="/login">
                         Iniciar sesión
                     </Button>
+                    <Button color="dark" size="md" className="mb-3" href="/puntajes-altos">
+                        Puntajes
+                    </Button>
+
+
                 </Col>
             </Row>
         </Container>
