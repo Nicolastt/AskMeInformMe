@@ -20,3 +20,15 @@
     color: black;
 }
 
+.profile-picture-container {
+    position: relative;
+}
+
+.crown-img {
+    position: absolute;
+    top: 10%; /* Ajusta la posición vertical de la corona */
+    left: 50%; /* Centra la corona horizontalmente */
+    transform: translate(-50%, -50%); /* Centra la corona dentro de su propio contenedor */
+    width: 60px; /* Ajusta el ancho de la corona */
+    height: 60px; /* Ajusta la altura de la corona */
+}
