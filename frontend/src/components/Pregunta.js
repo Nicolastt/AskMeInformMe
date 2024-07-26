@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Badge, Button, Card, CardBody, Col, Container, Row, Spinner} from 'reactstrap';
+import {Alert, Badge, Button, Card, CardBody, Col, Container, Row, Spinner} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Pregunta.css';
 import Score from './Score';
@@ -158,10 +158,13 @@ const Pregunta = ({userImage, userName}) => {
                             {respuestaCorrecta && (
                                 <div className="mt-3">
                                     {respuestaSeleccionada?.ID === respuestaCorrecta.ID ? (
-                                        <h5 className="text-success">¡Correcto!</h5>
+                                        <Alert color="success">
+                                            ¡Correcto!
+                                        </Alert>
                                     ) : (
-                                        <h5 className="text-danger">Incorrecto. La respuesta correcta
-                                            es: {respuestaCorrecta.Texto}</h5>
+                                        <Alert color="danger">
+                                            Incorrecto. La respuesta correcta es: {respuestaCorrecta.Texto}
+                                        </Alert>
                                     )}
                                     <Button color="primary" onClick={siguientePregunta}>
                                         Siguiente Pregunta
@@ -199,7 +202,7 @@ const Pregunta = ({userImage, userName}) => {
             {mostrarDatoCurioso && (
                 <Row className="mt-4">
                     <Col>
-                        <DatosCuriosos questionId={preguntas[preguntaActual]?.ID} />
+                        <DatosCuriosos questionId={preguntas[preguntaActual]?.ID}/>
                     </Col>
                 </Row>
             )}
