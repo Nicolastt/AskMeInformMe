@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Pregunta.css';
 import Score from './Score';
 import DatosCuriosos from './DatosCuriosos';
+import Barra from './Barra';
+import Opciones from './Opciones';
 
 const Pregunta = ({userImage, userName}) => {
     const tiempo_pregunta = 15;
@@ -29,6 +31,8 @@ const Pregunta = ({userImage, userName}) => {
     useEffect(() => {
         if (tiempoRestante === 0) {
             setRespuestaCorrecta(preguntas[preguntaActual]?.opciones.find(opcion => opcion.Es_Correcta));
+            setMostrarDatoCurioso(true); // Mostrar el dato curioso cuando el tiempo se acaba
+            setIsPaused(true); // Pausar el temporizador
         }
     }, [tiempoRestante, preguntaActual, preguntas]);
 
@@ -100,24 +104,6 @@ const Pregunta = ({userImage, userName}) => {
         return <Score userName={userName} userImage={userImage} puntaje={puntaje} totalTime={totalTime}/>;
     }
 
-    // Calculate the progress as a percentage of the original duration
-    const progressPercentage = (tiempoRestante / tiempo_pregunta) * 100; // Calculate remaining time as percentage
-
-    // Calculate thresholds for color changes
-    const threshold1 = (tiempo_pregunta / 3) * 2;
-    const threshold2 = tiempo_pregunta / 3;
-
-    // Determine color based on the remaining time
-    const getProgressColor = (remainingTime) => {
-        if (remainingTime > threshold1) {
-            return '#48c448'; // Green
-        } else if (remainingTime > threshold2) {
-            return '#f3f352'; // Yellow
-        } else {
-            return '#e04040'; // Red
-        }
-    };
-
     return (
         <Container className="mt-4">
             <Row className="mb-3">
@@ -141,20 +127,12 @@ const Pregunta = ({userImage, userName}) => {
                             <div className="mb-4">
                                 <h4>{preguntas[preguntaActual]?.Texto}</h4>
                             </div>
-                            <Row>
-                                {preguntas[preguntaActual]?.opciones.map((opcion, index) => (
-                                    <Col xs="6" className="mb-3" key={index}>
-                                        <Button
-                                            color={respuestaSeleccionada && respuestaSeleccionada.ID === opcion.ID ? 'primary' : 'secondary'}
-                                            onClick={() => handleRespuestaSeleccionada(opcion)}
-                                            disabled={respuestaCorrecta !== null}
-                                            block
-                                        >
-                                            {String.fromCharCode(65 + index)}. {opcion.Texto}
-                                        </Button>
-                                    </Col>
-                                ))}
-                            </Row>
+                            <Opciones
+                                opciones={preguntas[preguntaActual]?.opciones}
+                                respuestaSeleccionada={respuestaSeleccionada}
+                                handleRespuestaSeleccionada={handleRespuestaSeleccionada}
+                                respuestaCorrecta={respuestaCorrecta}
+                            />
                             {respuestaCorrecta && (
                                 <div className="mt-3">
                                     {respuestaSeleccionada?.ID === respuestaCorrecta.ID ? (
@@ -175,30 +153,7 @@ const Pregunta = ({userImage, userName}) => {
                     </Card>
                 </Col>
             </Row>
-            <Row className="mt-4">
-                <Col className="d-flex justify-content-center">
-                    <div style={{width: '100%', position: 'relative'}}>
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                width: '100%',
-                                height: '5px',
-                                backgroundColor: getProgressColor(tiempoRestante),
-                                transition: 'transform 0.1s linear', // Adjusted transition for smoother animation
-                                transform: `scaleX(${progressPercentage / 100})`,
-                                transformOrigin: 'left', // Change to left to make the progress decrease from left to right
-                                zIndex: 1,
-                            }}
-                        />
-                        <div className="text-center mt-2"
-                             style={{fontSize: '24px', fontWeight: 'bold', position: 'relative', zIndex: 2}}>
-                            {Math.ceil(tiempoRestante)}
-                        </div>
-                    </div>
-                </Col>
-            </Row>
+            <Barra tiempoRestante={tiempoRestante} tiempoPregunta={tiempo_pregunta}/> {/* Usa el componente Barra */}
             {mostrarDatoCurioso && (
                 <Row className="mt-4">
                     <Col>
