@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Badge, Button, Card, CardBody, Col, Container, Row} from 'reactstrap';
+import {Badge, Button, Card, CardBody, Col, Container, Row, Spinner} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Pregunta.css';
 import Score from './Score';
@@ -83,8 +83,15 @@ const Pregunta = ({userImage, userName}) => {
     };
 
     if (preguntas.length === 0) {
-        return <div>Cargando preguntas...</div>;
-    }
+    return (
+        <div className="d-flex justify-content-center align-items-center min-vh-100">
+            <Spinner color="primary">
+                Cargando preguntas...
+            </Spinner>
+        </div>
+    );
+}
+
 
     if (finalizado) {
         return <Score userName={userName} userImage={userImage} puntaje={puntaje} totalTime={totalTime}/>;
