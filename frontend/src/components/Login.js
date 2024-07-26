@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Button, Card, CardBody, CardTitle, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
+import { Alert, Button, Card, CardBody, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({ onLogin }) => {
@@ -22,7 +22,7 @@ const Login = ({ onLogin }) => {
                     setError(data.error);
                     setMessage('');
                 } else {
-                    onLogin(data.name, data.imagePath); // Pass the name and imagePath
+                    onLogin(data.name, data.imagePath);
                     setMessage('Login successful');
                     setError('');
                     setTimeout(() => navigate('/pregunta'), 2000);
