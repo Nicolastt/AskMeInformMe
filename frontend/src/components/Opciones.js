@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Button, Row } from 'reactstrap';
-import '../css/Opciones.css'; // Asegúrate de que la ruta sea correcta
+import '../css/Opciones.css';
 
 const Opciones = ({ opciones, respuestaSeleccionada, handleRespuestaSeleccionada, respuestaCorrecta }) => {
     return (
