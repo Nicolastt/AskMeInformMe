@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Table, Spinner } from 'reactstrap';
+import { Button, Card, CardBody, CardImg, CardTitle, Col, Container, Row, Spinner, Table } from 'reactstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/PuntajesAltos.css';
 
-const PuntajesAltos = () => {
+const PuntajesAltos = ({ userName, userImage }) => {
     const [scores, setScores] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -19,10 +21,16 @@ const PuntajesAltos = () => {
             });
     }, []);
 
+    // Identificar el usuario con el puntaje más alto
+    const topScore = scores[0] || {}; // Primer elemento o un objeto vacío si no hay puntajes
+
+    // Construir la URL de la imagen del usuario con el puntaje más alto
+    const topScoreImage = topScore.RutaImagen ? `http://localhost:5000/uploads/${topScore.RutaImagen}` : userImage;
+
     if (loading) {
         return (
             <Container className="text-center mt-5">
-                <Spinner color="primary">Cargando puntajes...</Spinner>
+                <Spinner color="primary" style={{ width: '3rem', height: '3rem' }}>Cargando puntajes...</Spinner>
             </Container>
         );
     }
@@ -39,23 +47,37 @@ const PuntajesAltos = () => {
         <Container className="mt-4">
             <Row className="text-center mb-4">
                 <Col>
-                    <h1>Puntajes Más Altos</h1>
+                    <h3 className="font-weight-bold" style={{color: 'black', fontSize: '2rem'}}>
+                        ¡Puntajes Más Altos!
+                    </h3>
                 </Col>
             </Row>
-            <Row>
-                <Col>
-                    <Table striped>
-                        <thead>
+
+            <Row className="mb-4 justify-content-center">
+                <Col md="6" className="text-center">
+                    <Card className="profile-card shadow-sm border-light">
+                        <CardImg top src={topScoreImage} alt="Usuario" className="img-usuario rounded-circle mx-auto mt-3" />
+                        <CardBody>
+                            <CardTitle tag="h4" className="user-name mb-2">{topScore.Nombre || userName}</CardTitle>
+                        </CardBody>
+                    </Card>
+                </Col>
+            </Row>
+
+            <Row className="justify-content-center">
+                <Col md="10">
+                    <Table hover responsive className="shadow-lg rounded">
+                        <thead className="thead-light">
                             <tr>
                                 <th>#</th>
                                 <th>Nombre</th>
                                 <th>Puntaje</th>
-                                <th>Tiempo Total (segundos)</th>
+                                <th>Tiempo Total (s)</th>
                             </tr>
                         </thead>
                         <tbody>
                             {scores.map((score, index) => (
-                                <tr key={index}>
+                                <tr key={index} className={index === 0 ? 'top1' : ''}>
                                     <th scope="row">{index + 1}</th>
                                     <td>{score.Nombre}</td>
                                     <td>{score.Puntaje}</td>
@@ -64,6 +86,13 @@ const PuntajesAltos = () => {
                             ))}
                         </tbody>
                     </Table>
+                </Col>
+            </Row>
+            <Row className="mt-4">
+                <Col className="text-center">
+                    <Button color="dark" href="/">
+                        Volver al Inicio
+                    </Button>
                 </Col>
             </Row>
         </Container>

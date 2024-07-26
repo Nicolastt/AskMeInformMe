@@ -1,0 +1,22 @@
+/* Estilos para la tabla */
+.table th,
+.table td {
+    text-align: center;
+}
+
+/* Estilo especial para el top score */
+.top-score {
+    background-color: #ffdc00; /* Color dorado para el top 1 */
+    font-weight: bold;
+}
+
+.top-score-text {
+    color: #000; /* Texto negro para el top 1 */
+}
+
+/* Aplica un fondo dorado para el primer lugar */
+.top1 {
+    background-color: #ffd700; /* Color dorado */
+    color: black;
+}
+
