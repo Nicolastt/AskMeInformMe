@@ -1,0 +1,83 @@
+.opcion-button {
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+}
+
+.opcion-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.opcion-button:active {
+    transform: scale(0.98);
+}
+
+.opcion-button-1 {
+    background-color: #dc3545; /* Rojo */
+    border-color: #dc3545;
+    color: white;
+}
+
+.opcion-button-2 {
+    background-color: #28a745; /* Verde */
+    border-color: #28a745;
+    color: white;
+}
+
+.opcion-button-3 {
+    background-color: #007bff; /* Azul */
+    border-color: #007bff;
+    color: white;
+}
+
+.opcion-button-4 {
+    background-color: #ffc107; /* Amarillo */
+    border-color: #ffc107;
+    color: black;
+}
+
+.opcion-button-1:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.opcion-button-2:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.opcion-button-3:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.opcion-button-4:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+.opcion-button-1:active {
+    background-color: #bd2130;
+    border-color: #a71d2a;
+}
+
+.opcion-button-2:active {
+    background-color: #1e7e34;
+    border-color: #1c7430;
+}
+
+.opcion-button-3:active {
+    background-color: #004085;
+    border-color: #003768;
+}
+
+.opcion-button-4:active {
+    background-color: #d39e00;
+    border-color: #c69500;
+}
+
+.opcion-text {
+    font-size: 18px;
+    font-weight: 500;
+}
