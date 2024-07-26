@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, CardBody, CardTitle, CardText, Spinner } from 'reactstrap';
+import { Container, Row, Col, Table, Spinner } from 'reactstrap';
 
 const PuntajesAltos = () => {
     const [scores, setScores] = useState([]);
@@ -43,17 +43,28 @@ const PuntajesAltos = () => {
                 </Col>
             </Row>
             <Row>
-                {scores.map((score, index) => (
-                    <Col md="6" lg="4" key={index} className="mb-4">
-                        <Card className="shadow-sm">
-                            <CardBody>
-                                <CardTitle tag="h5">{index + 1}. {score.Nombre}</CardTitle>
-                                <CardText><strong>Puntaje:</strong> {score.Puntaje}</CardText>
-                                <CardText><strong>Tiempo Total:</strong> {score.Tiempo_Total.toFixed(2)} segundos</CardText>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                ))}
+                <Col>
+                    <Table striped>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Puntaje</th>
+                                <th>Tiempo Total (segundos)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {scores.map((score, index) => (
+                                <tr key={index}>
+                                    <th scope="row">{index + 1}</th>
+                                    <td>{score.Nombre}</td>
+                                    <td>{score.Puntaje}</td>
+                                    <td>{score.Tiempo_Total.toFixed(2)}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Col>
             </Row>
         </Container>
     );
