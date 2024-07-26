@@ -44,7 +44,9 @@ const Login = ({ onLogin }) => {
                 <Col md="6">
                     <Card className="shadow-lg">
                         <CardBody>
-                            <CardTitle tag="h2" className="text-center mb-4">AskMeInformMe</CardTitle>
+                                                        <div className="text-center mb-4">
+                                <img src="/images/imagenhome.jpeg" alt="Home" className="img-fluid" />
+                            </div>
                             <Form onSubmit={handleSubmit}>
                                 <FormGroup>
                                     <Label for="name">Nombre</Label>
