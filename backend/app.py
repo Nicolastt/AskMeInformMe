@@ -217,5 +217,25 @@ def get_high_scores():
         connection.close()
 
 
+@app.route('/datos_curiosos/<int:question_id>', methods=['GET'])
+def get_dato_curioso(question_id):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    query = "SELECT texto, enlace1, enlace2, enlace3 FROM DatosCuriosos WHERE pregunta_id = :question_id"
+    cursor.execute(query, question_id=question_id)
+    result = cursor.fetchone()
+    cursor.close()
+    if result:
+        dato_curioso = {
+            "texto": result[0],
+            "enlace1": result[1],
+            "enlace2": result[2],
+            "enlace3": result[3]
+        }
+        return jsonify(dato_curioso)
+    else:
+        return jsonify({"error": "No se encontró dato curioso para la pregunta especificada"}), 404
+
+
 if __name__ == '__main__':
     app.run(debug=True)
