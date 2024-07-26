@@ -183,6 +183,7 @@ def save_score():
         cursor.close()
         connection.close()
 
+
 @app.route('/get_high_scores', methods=['GET'])
 def get_high_scores():
     connection = get_db_connection()
@@ -190,7 +191,7 @@ def get_high_scores():
 
     try:
         query = """
-            SELECT u.Nombre, p.Puntaje, p.Tiempo_Total
+            SELECT u.Nombre, u.RutaImagen, p.Puntaje, p.Tiempo_Total
             FROM Puntajes p
             JOIN Usuarios u ON p.Usuario_ID = u.ID
             ORDER BY p.Puntaje DESC, p.Tiempo_Total ASC
@@ -203,8 +204,9 @@ def get_high_scores():
         for score in scores:
             result.append({
                 'Nombre': score[0],
-                'Puntaje': score[1],
-                'Tiempo_Total': score[2]
+                'RutaImagen': score[1],  # Solo el nombre del archivo de imagen
+                'Puntaje': score[2],
+                'Tiempo_Total': score[3]
             })
 
         return jsonify(result)

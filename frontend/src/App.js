@@ -26,7 +26,7 @@ const App = () => {
                 <Route path="/login" element={<Login onLogin={handleLogin}/>}/>
                 <Route path="/pregunta"
                        element={isAuthenticated ? <Pregunta userName={userName} userImage={userImage}/> : <HomePage/>}/>
-                <Route path="/puntajes-altos" element={<PuntajesAltos />} />
+                <Route path="/puntajes-altos" element={<PuntajesAltos/>}/>
                 <Route path="/" element={<HomePage/>}/>
             </Routes>
         </Router>
