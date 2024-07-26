@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {Button, Card, CardBody, CardImg, CardTitle, Col, Container, Row, Spinner, Table} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/PuntajesAltos.css';
+import {useNavigate} from "react-router-dom";
 
 const PuntajesAltos = ({userName, userImage}) => {
     const [scores, setScores] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('/get_high_scores')
@@ -41,6 +43,10 @@ const PuntajesAltos = ({userName, userImage}) => {
                 <p>{error}</p>
             </Container>
         );
+    }
+
+    function handleGoBack() {
+        navigate('/');
     }
 
     return (
@@ -94,12 +100,11 @@ const PuntajesAltos = ({userName, userImage}) => {
                 </Col>
             </Row>
             <Row className="mt-4">
-                <Col className="text-center">
-                    <Button color="dark" href="/">
-                        Volver al Inicio
-                    </Button>
+                <Col className="text-center px-5">
+                    <Button onClick={handleGoBack} color="secondary" size="n" className="mx-auto px-3 mb-3">Volver</Button>
                 </Col>
             </Row>
+
         </Container>
     );
 };

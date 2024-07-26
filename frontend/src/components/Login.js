@@ -6,7 +6,7 @@ const Login = ({ onLogin }) => {
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate(); // Hook para la navegación
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
