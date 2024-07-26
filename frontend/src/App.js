@@ -5,6 +5,7 @@ import Pregunta from './components/Pregunta';
 import HomePage from './components/HomePage';
 import Login from "./components/Login";
 import {Register} from "./components/Register";
+import PuntajesAltos from "./components/PuntajesAltos";
 
 const App = () => {
     const [userName, setUserName] = useState('');
@@ -25,6 +26,7 @@ const App = () => {
                 <Route path="/login" element={<Login onLogin={handleLogin}/>}/>
                 <Route path="/pregunta"
                        element={isAuthenticated ? <Pregunta userName={userName} userImage={userImage}/> : <HomePage/>}/>
+                <Route path="/puntajes-altos" element={<PuntajesAltos />} />
                 <Route path="/" element={<HomePage/>}/>
             </Routes>
         </Router>
