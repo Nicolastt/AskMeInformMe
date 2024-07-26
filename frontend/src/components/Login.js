@@ -44,10 +44,10 @@ const Login = ({ onLogin }) => {
                 <Col md="6">
                     <Card className="shadow-lg">
                         <CardBody>
-                            <CardTitle tag="h2" className="text-center mb-4">Login</CardTitle>
+                            <CardTitle tag="h2" className="text-center mb-4">AskMeInformMe</CardTitle>
                             <Form onSubmit={handleSubmit}>
                                 <FormGroup>
-                                    <Label for="name">Name</Label>
+                                    <Label for="name">Nombre</Label>
                                     <Input
                                         type="text"
                                         id="name"
@@ -56,11 +56,11 @@ const Login = ({ onLogin }) => {
                                         required
                                     />
                                 </FormGroup>
-                                <Button type="submit" color="primary" block className="mb-3">Login</Button>
+                                <Button type="submit" color="primary" block className="mb-3">Iniciar sesión</Button>
                             </Form>
                             {message && <Alert color="success" className="mt-3">{message}</Alert>}
                             {error && <Alert color="danger" className="mt-3">{error}</Alert>}
-                            <Button color="secondary" block onClick={handleGoBack}>Go Back</Button>
+                            <Button color="secondary" block onClick={handleGoBack}>Volver</Button>
                         </CardBody>
                     </Card>
                 </Col>
