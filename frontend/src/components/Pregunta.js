@@ -3,6 +3,7 @@ import {Badge, Button, Card, CardBody, Col, Container, Row, Spinner} from 'react
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Pregunta.css';
 import Score from './Score';
+import DatosCuriosos from './DatosCuriosos';
 
 const Pregunta = ({userImage, userName}) => {
     const tiempo_pregunta = 15;
@@ -15,6 +16,7 @@ const Pregunta = ({userImage, userName}) => {
     const [isPaused, setIsPaused] = useState(false);
     const [finalizado, setFinalizado] = useState(false);
     const [totalTime, setTotalTime] = useState(0);
+    const [mostrarDatoCurioso, setMostrarDatoCurioso] = useState(false);
 
     useEffect(() => {
         fetch('/get_questions')
@@ -67,6 +69,7 @@ const Pregunta = ({userImage, userName}) => {
         }
 
         setRespuestaCorrecta(correcta);
+        setMostrarDatoCurioso(true); // Mostrar el dato curioso cuando se selecciona una respuesta
     };
 
     const siguientePregunta = () => {
@@ -77,21 +80,21 @@ const Pregunta = ({userImage, userName}) => {
             setPreguntaActual(preguntaActual + 1);
             setTiempoRestante(tiempo_pregunta); // Actualiza dinámicamente según la dificultad
             setIsPaused(false);
+            setMostrarDatoCurioso(false); // Ocultar el dato curioso al pasar a la siguiente pregunta
         } else {
             setFinalizado(true);
         }
     };
 
     if (preguntas.length === 0) {
-    return (
-        <div className="d-flex justify-content-center align-items-center min-vh-100">
-            <Spinner color="primary">
-                Cargando preguntas...
-            </Spinner>
-        </div>
-    );
-}
-
+        return (
+            <div className="d-flex justify-content-center align-items-center min-vh-100">
+                <Spinner color="primary">
+                    Cargando preguntas...
+                </Spinner>
+            </div>
+        );
+    }
 
     if (finalizado) {
         return <Score userName={userName} userImage={userImage} puntaje={puntaje} totalTime={totalTime}/>;
@@ -193,6 +196,13 @@ const Pregunta = ({userImage, userName}) => {
                     </div>
                 </Col>
             </Row>
+            {mostrarDatoCurioso && (
+                <Row className="mt-4">
+                    <Col>
+                        <DatosCuriosos questionId={preguntas[preguntaActual]?.ID} />
+                    </Col>
+                </Row>
+            )}
         </Container>
     );
 };
