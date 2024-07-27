@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardImg, CardTitle, Col, Container, Row, Spinner, Table } from 'reactstrap';
+import { Button, Card, CardImg, CardBody, Col, Container, Row, Spinner, Table } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/PuntajesAltos.css';
 import { useNavigate } from 'react-router-dom';
@@ -58,13 +58,13 @@ const PuntajesAltos = ({ userName, userImage }) => {
 
             <Row className="mb-4 justify-content-center">
                 <Col md="12" className="text-center">
-                    <Card className="profile-card shadow-sm border-light">
-                        <div className="profile-picture-container">
-                            <CardImg top src={topScoreImage} alt="Usuario" className="img-usuario rounded-circle mx-auto mt-3" />
-                            <img src="/images/corona.png" alt="Crown" className="crown-img" />
+                    <Card className="profile-card-custom shadow-sm border-light">
+                        <div className="profile-picture-container-custom">
+                            <CardImg top src={topScoreImage} alt="Usuario" className="img-usuario-custom rounded-circle mx-auto mt-3" />
+                            <img src="/images/corona.png" alt="Crown" className="crown-img-custom" />
                         </div>
-                        <CardBody>
-                            <CardTitle tag="h4" className="user-name mb-2">{topScore.Nombre || userName}</CardTitle>
+                        <CardBody className="text-center">
+                            <h4 className="user-name mb-2">{topScore.Nombre || userName}</h4>
                         </CardBody>
                     </Card>
                 </Col>

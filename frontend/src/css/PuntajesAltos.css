@@ -21,20 +21,21 @@
 }
 
 /* Estilo de la tarjeta */
-.profile-card {
-    background: linear-gradient(135deg, #18170c 0%, #ffffff 100%); /* Fondo llamativo */
+.profile-card-custom {
+    background: linear-gradient(135deg, #ffd600 0%, #ffffff 100%); /* Fondo llamativo */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
     color: #000000;
     border-radius: 12px;
     position: relative;
     overflow: hidden; /* Para que la sombra no se salga de la tarjeta */
-    padding-top: 45px; /* Aumenta el padding superior para dar espacio a la corona */
-    width: 100%;
+    padding-top: 45px; /* Ajusta el padding para que el contenido no esté tan pegado a los bordes */
+    width: auto; /* Tamaño de la tarjeta ajustado */
     max-width: 100%;
+    margin: 0 auto; /* Centra la tarjeta */
 }
 
 /* Animación de rotación de la tarjeta */
-@keyframes rotateCard {
+@keyframes rotateCardCustom {
     0% {
         transform: rotateX(0);
         opacity: 0;
@@ -50,31 +51,31 @@
 }
 
 /* Aplicar animación de rotación a la tarjeta */
-.profile-card {
-    animation: rotateCard 3s ease-in-out forwards;
+.profile-card-custom {
+    animation: rotateCardCustom 3s ease-in-out forwards;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.profile-card:hover {
+.profile-card-custom:hover {
     transform: scale(1.05);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Estilo para la corona */
-.crown-img {
+.crown-img-custom {
     position: absolute;
-    top: 10%;
+    top: 10%; /* Ajusta la posición vertical si es necesario */
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 60px;
-    height: 60px;
+    width: 60px; /* Ajusta el tamaño según el diseño */
+    height: 60px; /* Ajusta el tamaño según el diseño */
     opacity: 0; /* Inicialmente oculta */
     transition: opacity 1s ease-in-out; /* Transición suave para la opacidad */
-    animation: appearCrown 0.5s ease-in-out forwards; /* Animación para aparecer */
+    animation: appearCrownCustom 0.5s ease-in-out forwards; /* Animación para aparecer */
     animation-delay: 3s; /* Retraso para que coincida con la animación de la tarjeta */
 }
 
-@keyframes appearCrown {
+@keyframes appearCrownCustom {
     0% {
         opacity: 0;
     }
@@ -84,16 +85,27 @@
 }
 
 /* Estilo para el contenedor de la imagen del perfil */
-.profile-picture-container {
+.profile-picture-container-custom {
     position: relative;
+    width: 100%; /* Asegura que el contenedor ocupe el ancho de la tarjeta */
+    text-align: center; /* Centra el contenido dentro del contenedor */
 }
 
 /* Estilo para la imagen del usuario */
-.img-usuario {
+.img-usuario-custom {
     border: 2px solid #fff;
     transition: transform 1s ease;
+    max-width: 150px; /* Ajusta el tamaño según el diseño */
+    max-height: 150px; /* Ajusta el tamaño según el diseño */
 }
 
-.img-usuario:hover {
+.img-usuario-custom:hover {
     transform: scale(1.1);
+}
+
+/* Estilo para el nombre del usuario en la tarjeta */
+.user-name {
+    color: #000000; /* Ajusta el color según tu diseño */
+    font-size: 1.2rem; /* Ajusta el tamaño del texto según tu diseño */
+    margin-top: 20px; /* Espacio entre la imagen y el nombre */
 }
