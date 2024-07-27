@@ -73,7 +73,7 @@ const Pregunta = ({userImage, userName}) => {
         }
 
         setRespuestaCorrecta(correcta);
-        setMostrarDatoCurioso(true); // Mostrar el dato curioso cuando se selecciona una respuesta
+        setMostrarDatoCurioso(true);
     };
 
     const siguientePregunta = () => {
@@ -107,7 +107,7 @@ const Pregunta = ({userImage, userName}) => {
     }
 
     function handleGoBack() {
-        window.location.href = '/bug-1';
+        window.location.href = '/bug-1'; // ! Introducir bug: Redirigir a una ruta incorrecta
     }
 
     return (
