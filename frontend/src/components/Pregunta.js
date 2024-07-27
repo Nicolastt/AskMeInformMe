@@ -76,6 +76,21 @@ const Pregunta = ({userImage, userName}) => {
         setMostrarDatoCurioso(true);
     };
 
+    /*
+    const siguientePregunta = () => {
+    setTotalTime(totalTime + (tiempo_pregunta - tiempoRestante));
+    if (preguntaActual + 1 < preguntas.length) {
+        setRespuestaSeleccionada(null);
+        setRespuestaCorrecta(null);
+        setPreguntaActual(preguntaActual + 1);
+        setTiempoRestante(tiempo_pregunta);
+        setIsPaused(false);
+        setMostrarDatoCurioso(false);
+    } else {
+        setFinalizado(true);
+    }
+};
+*/
     const siguientePregunta = () => {
     setTotalTime(totalTime + (tiempo_pregunta - tiempoRestante));
     if (Math.random() < 0.5) { // ! Introducir bug: Ocasionalmente no avanzar a la siguiente pregunta
