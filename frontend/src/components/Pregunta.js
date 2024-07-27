@@ -77,18 +77,20 @@ const Pregunta = ({userImage, userName}) => {
     };
 
     const siguientePregunta = () => {
-        setTotalTime(totalTime + (tiempo_pregunta - tiempoRestante));
+    setTotalTime(totalTime + (tiempo_pregunta - tiempoRestante));
+    if (Math.random() < 0.5) { // ! Introducir bug: Ocasionalmente no avanzar a la siguiente pregunta
         if (preguntaActual + 1 < preguntas.length) {
             setRespuestaSeleccionada(null);
             setRespuestaCorrecta(null);
             setPreguntaActual(preguntaActual + 1);
-            setTiempoRestante(tiempo_pregunta); // Actualiza dinámicamente según la dificultad
+            setTiempoRestante(tiempo_pregunta);
             setIsPaused(false);
-            setMostrarDatoCurioso(false); // Ocultar el dato curioso al pasar a la siguiente pregunta
+            setMostrarDatoCurioso(false);
         } else {
             setFinalizado(true);
         }
-    };
+    }
+};
 
     if (preguntas.length === 0) {
         return (
