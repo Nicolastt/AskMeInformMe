@@ -6,6 +6,7 @@ Esta guía proporciona los pasos necesarios para configurar y ejecutar un proyec
 
 - Python 3.x
 - Node.js y npm
+- Oracle Database 19c
 
 ## Configuración del Backend (Flask)
 
@@ -31,6 +32,7 @@ Esta guía proporciona los pasos necesarios para configurar y ejecutar un proyec
 
     ```bash
     pip install Flask flask-cors
+    pip install oracledb
     ```
 
 4. **Ejecución del Backend**:
