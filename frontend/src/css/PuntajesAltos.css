@@ -29,7 +29,7 @@
     position: relative;
     overflow: hidden; /* Para que la sombra no se salga de la tarjeta */
     padding-top: 45px; /* Aumenta el padding superior para dar espacio a la corona */
-    width: 100%; /* Asegura que la tarjeta ocupe todo el ancho disponible */
+    width: 100%;
     max-width: 100%;
 }
 
