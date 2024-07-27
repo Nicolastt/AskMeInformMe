@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, Button, Card, CardBody, CardTitle, Col, Container, Form, FormGroup, Input, Label, Row} from 'reactstrap';
+import {Alert, Button, Card, CardBody, Col, Container, Form, FormGroup, Input, Label, Row} from 'reactstrap';
 import {useNavigate} from 'react-router-dom';
 
 const Login = ({onLogin}) => {
@@ -44,12 +44,12 @@ const Login = ({onLogin}) => {
                 <Col md="6">
                     <Card className="shadow-lg">
                         <CardBody>
-                            <h1 tag="h1" className="display-4  text-dark"
-                                       style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'}}>
+                            <h1 tag="h2" className="display-5 text-dark"
+                                style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'}}>
                                 Ask Me
                             </h1>
-                            <h2 tag="h2" className="display-6  text-dark"
-                                       style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'}}>
+                            <h2 tag="h2" className="display-4  text-dark"
+                                style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'}}>
                                 Inform Me
                             </h2>
 
