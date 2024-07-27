@@ -20,15 +20,80 @@
     color: black;
 }
 
+/* Estilo de la tarjeta */
+.profile-card {
+    background: linear-gradient(135deg, #18170c 0%, #ffffff 100%); /* Fondo llamativo */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    color: #000000;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden; /* Para que la sombra no se salga de la tarjeta */
+    padding-top: 45px; /* Aumenta el padding superior para dar espacio a la corona */
+    width: 100%; /* Asegura que la tarjeta ocupe todo el ancho disponible */
+    max-width: 100%;
+}
+
+/* Animación de rotación de la tarjeta */
+@keyframes rotateCard {
+    0% {
+        transform: rotateX(0);
+        opacity: 0;
+    }
+    50% {
+        transform: rotateX(540deg);
+        opacity: 1;
+    }
+    100% {
+        transform: rotateX(1080deg);
+        opacity: 1;
+    }
+}
+
+/* Aplicar animación de rotación a la tarjeta */
+.profile-card {
+    animation: rotateCard 3s ease-in-out forwards;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para la corona */
+.crown-img {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    opacity: 0; /* Inicialmente oculta */
+    transition: opacity 1s ease-in-out; /* Transición suave para la opacidad */
+    animation: appearCrown 0.5s ease-in-out forwards; /* Animación para aparecer */
+    animation-delay: 3s; /* Retraso para que coincida con la animación de la tarjeta */
+}
+
+@keyframes appearCrown {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Estilo para el contenedor de la imagen del perfil */
 .profile-picture-container {
     position: relative;
 }
 
-.crown-img {
-    position: absolute;
-    top: 10%; /* Ajusta la posición vertical de la corona */
-    left: 50%; /* Centra la corona horizontalmente */
-    transform: translate(-50%, -50%); /* Centra la corona dentro de su propio contenedor */
-    width: 60px; /* Ajusta el ancho de la corona */
-    height: 60px; /* Ajusta la altura de la corona */
+/* Estilo para la imagen del usuario */
+.img-usuario {
+    border: 2px solid #fff;
+    transition: transform 1s ease;
+}
+
+.img-usuario:hover {
+    transform: scale(1.1);
 }
