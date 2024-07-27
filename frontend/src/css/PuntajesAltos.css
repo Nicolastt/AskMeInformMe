@@ -22,13 +22,13 @@
 
 /* Estilo de la tarjeta */
 .profile-card-custom {
-    background: linear-gradient(135deg, #000000 0%, #ffffff 100%); /* Fondo llamativo */
+    background: linear-gradient(135deg, #8400ff 0%, #ffdd00 100%); /* Fondo llamativo */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
     color: #000000;
     border-radius: 12px;
     position: relative;
     overflow: hidden; /* Para que la sombra no se salga de la tarjeta */
-    padding-top: 45px; /* Ajusta el padding para que el contenido no esté tan pegado a los bordes */
+    padding-top: 25px; /* Ajusta el padding para que el contenido no esté tan pegado a los bordes */
     width: auto; /* Tamaño de la tarjeta ajustado */
     max-width: 100%;
     margin: 0 auto; /* Centra la tarjeta */
@@ -107,5 +107,5 @@
 .user-name {
     color: #000000; /* Ajusta el color según tu diseño */
     font-size: 1.2rem; /* Ajusta el tamaño del texto según tu diseño */
-    margin-top: 20px; /* Espacio entre la imagen y el nombre */
+    margin-top: -1px; /* Espacio entre la imagen y el nombre */
 }
