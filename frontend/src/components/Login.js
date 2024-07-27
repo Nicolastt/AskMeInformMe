@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Alert, Button, Card, CardBody, Col, Container, Form, FormGroup, Input, Label, Row } from 'reactstrap';
-import { useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
+import {Alert, Button, Card, CardBody, CardTitle, Col, Container, Form, FormGroup, Input, Label, Row} from 'reactstrap';
+import {useNavigate} from 'react-router-dom';
 
-const Login = ({ onLogin }) => {
+const Login = ({onLogin}) => {
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
@@ -13,8 +13,8 @@ const Login = ({ onLogin }) => {
 
         fetch('/login_user', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name }),
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({name}),
         })
             .then(response => response.json())
             .then(data => {
@@ -44,9 +44,22 @@ const Login = ({ onLogin }) => {
                 <Col md="6">
                     <Card className="shadow-lg">
                         <CardBody>
-                                                        <div className="text-center mb-4">
-                                <img src="/images/imagenhome.jpeg" alt="Home" className="img-fluid" />
+                            <h1 tag="h1" className="display-4  text-dark"
+                                       style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'}}>
+                                Ask Me
+                            </h1>
+                            <h2 tag="h2" className="display-6  text-dark"
+                                       style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'}}>
+                                Inform Me
+                            </h2>
+
+
+                            <div className="text-center mb-4" style={{maxWidth: '50%', margin: '0 auto'}}>
+                                <img src="/images/gato.jpg" alt="Home" className="img-fluid"
+                                     style={{width: '100%', height: 'auto'}}/>
                             </div>
+
+
                             <Form onSubmit={handleSubmit}>
                                 <FormGroup>
                                     <Label for="name">Nombre</Label>
