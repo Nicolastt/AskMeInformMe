@@ -104,6 +104,10 @@ const Pregunta = ({userImage, userName}) => {
         return <Score userName={userName} userImage={userImage} puntaje={puntaje} totalTime={totalTime}/>;
     }
 
+    function handleGoBack() {
+        window.location.href = '/bug-1';
+    }
+
     return (
         <Container className="mt-4">
             <Row className="mb-3">
@@ -153,7 +157,10 @@ const Pregunta = ({userImage, userName}) => {
                     </Card>
                 </Col>
             </Row>
-            <Barra tiempoRestante={tiempoRestante} tiempoPregunta={tiempo_pregunta}/> {/* Usa el componente Barra */}
+            <Barra tiempoRestante={tiempoRestante} tiempoPregunta={tiempo_pregunta}/> {}
+            <Button color="dark" onClick={handleGoBack}>
+                Salir
+            </Button>
             {mostrarDatoCurioso && (
                 <Row className="mt-4">
                     <Col>
