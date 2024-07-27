@@ -75,7 +75,7 @@ const Login = ({onLogin}) => {
                             </Form>
                             {message && <Alert color="success" className="mt-3">{message}</Alert>}
                             {error && <Alert color="danger" className="mt-3">{error}</Alert>}
-                            <Button color="secondary" block onClick={handleGoBack}>Volver</Button>
+                            <Button color="dark" block onClick={handleGoBack}>Volver</Button>
                         </CardBody>
                     </Card>
                 </Col>

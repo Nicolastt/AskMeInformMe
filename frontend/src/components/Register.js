@@ -76,7 +76,7 @@ const Register = () => {
                   />
                 </FormGroup>
                 <Button type="submit" color="primary" className="mr-2 mb-3" block>Registrar</Button>
-                <Button type="button" color="secondary" onClick={handleGoBack} block>Volver</Button>
+                <Button type="button" color="dark" onClick={handleGoBack} block>Volver</Button>
               </Form>
               {message && <Alert color="success" className="mt-3">{message}</Alert>}
               {error && <Alert color="danger" className="mt-3">{error}</Alert>}

@@ -97,7 +97,7 @@ const PuntajesAltos = ({ userName, userImage }) => {
 
             <Row className="mt-4">
                 <Col className="text-center px-5">
-                    <Button onClick={handleGoBack} color="secondary" size="n" className="mx-auto px-3 mb-3">Volver</Button>
+                    <Button onClick={handleGoBack} color="dark" size="n" className="mx-auto px-3 mb-3">Volver</Button>
                 </Col>
             </Row>
         </Container>
